@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ConvYH V2 — Scramjet Proxy</title>
+  <title>ConvYH V2 — Browser</title>
 
   <link rel="stylesheet" href="/index.css" />
   <meta name="robots" content="noindex" />
@@ -19,18 +19,11 @@
     body {
       margin: 0;
       background: var(--bg);
-      font-family: Arial, sans-serif;
-      color: #f9f5ff;
-      overflow: hidden;
-    }
-
-    /* Background squares */
-    .bg {
+     bg {
       position: fixed;
       inset: 0;
       z-index: -1;
       overflow: hidden;
-      background: radial-gradient(circle at top left, #1a0b33 0, #050008 45%, #000 100%);
     }
 
     .square {
@@ -51,7 +44,7 @@
       padding-top: 20px;
     }
 
-    .header h1 {
+    .title {
       font-size: 48px;
       font-weight: 900;
       background: linear-gradient(90deg, var(--accent), var(--accent-soft));
@@ -61,7 +54,7 @@
       margin: 0;
     }
 
-    .desc {
+    .subtitle {
       text-align: center;
       font-size: 16px;
       opacity: 0.8;
@@ -69,14 +62,14 @@
     }
 
     /* Search bar */
-    #sj-form {
+    .browser-bar {
       margin-top: 15px;
       display: flex;
       justify-content: center;
       gap: 10px;
     }
 
-    #sj-address {
+    .browser-input {
       width: 55%;
       padding: 12px 18px;
       border-radius: 12px;
@@ -89,11 +82,11 @@
       backdrop-filter: blur(6px);
     }
 
-    #sj-address::placeholder {
+    .browser-input::placeholder {
       color: rgba(209, 196, 255, 0.6);
     }
 
-    #goBtn {
+    .browser-button {
       padding: 12px 26px;
       border-radius: 12px;
       border: 1px solid rgba(168, 85, 255, 0.45);
@@ -108,19 +101,19 @@
       transition: 0.2s ease;
     }
 
-    #goBtn:hover {
+    .browser-button:hover {
       border-color: rgba(168, 85, 255, 0.8);
       box-shadow: 0 0 28px rgba(168, 85, 255, 0.6);
       color: #f0d9ff;
     }
 
-    #goBtn:active {
+    .browser-button:active {
       transform: scale(0.97);
       box-shadow: 0 0 12px rgba(168, 85, 255, 0.4);
     }
 
-    /* FULL HEIGHT FRAME */
-    #sj-frame-wrapper {
+    /* Purple outlined frame (REAL FRAME) */
+    .browser-frame {
       position: absolute;
       top: 150px;
       left: 50%;
@@ -138,7 +131,7 @@
       overflow: hidden;
     }
 
-    #sj-frame-url {
+    .browser-url {
       padding: 8px 14px;
       font-size: 13px;
       color: rgba(226, 232, 240, 0.8);
@@ -146,7 +139,7 @@
       background: rgba(15, 23, 42, 0.6);
     }
 
-    #sj-frame {
+    .browser-iframe {
       width: 100%;
       height: calc(100% - 32px);
       border: none;
@@ -169,21 +162,21 @@
 
   <!-- Header -->
   <div class="header">
-    <h1>ConvYH V2</h1>
-    <div class="desc">ConvYH V2 Proxy — powered by Scramjet.</div>
+    <h1 class="title">ConvYH V2</h1>
+    <div class="subtitle">ConvYH V2 Proxy — powered by Scramjet.</div>
   </div>
 
-  <!-- Scramjet form -->
-  <form id="sj-form">
+  <!-- Search bar -->
+  <form id="sj-form" class="browser-bar">
     <input id="sj-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
-    <input id="sj-address" type="text" placeholder="Enter a website URL..." />
-    <button id="goBtn" type="submit">Go</button>
+    <input id="sj-address" class="browser-input" type="text" placeholder="Enter a website URL..." />
+    <button class="browser-button" type="submit">Go</button>
   </form>
 
-  <!-- Full-height frame -->
-  <div id="sj-frame-wrapper">
-    <p id="sj-frame-url"></p>
-    <iframe id="sj-frame"></iframe>
+  <!-- Purple outlined frame (REAL FRAME) -->
+  <div class="browser-frame">
+    <p id="sj-frame-url" class="browser-url"></p>
+    <iframe id="sj-frame" class="browser-iframe"></iframe>
   </div>
 
   <!-- Scramjet logic -->
