@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ConvYH V2 — Browser</title>
+  <title>ConvYH V2 — Scramjet Proxy</title>
 
+  <!-- Scramjet required -->
   <link rel="stylesheet" href="/index.css" />
   <meta name="robots" content="noindex" />
   <script src="/bootstrap-init.js"></script>
@@ -18,12 +19,22 @@
 
     body {
       margin: 0;
+      height: 100vh;
+      overflow: hidden;
       background: var(--bg);
-     bg {
+      font-family: Arial, sans-serif;
+      color: #f9f5ff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Background squares */
+    .bg {
       position: fixed;
       inset: 0;
       z-index: -1;
       overflow: hidden;
+      background: radial-gradient(circle at top left, #1a0b33 0, #050008 45%, #000 100%);
     }
 
     .square {
@@ -41,12 +52,14 @@
     /* Header */
     .header {
       text-align: center;
-      padding-top: 20px;
+      padding-top: 24px;
     }
 
-    .title {
+    .header h1 {
       font-size: 48px;
       font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       background: linear-gradient(90deg, var(--accent), var(--accent-soft));
       -webkit-background-clip: text;
       color: transparent;
@@ -54,7 +67,7 @@
       margin: 0;
     }
 
-    .subtitle {
+    .desc {
       text-align: center;
       font-size: 16px;
       opacity: 0.8;
@@ -62,76 +75,72 @@
     }
 
     /* Search bar */
-    .browser-bar {
-      margin-top: 15px;
+    #sj-form {
+      margin-top: 20px;
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 10px;
     }
 
-    .browser-input {
+    #sj-address {
       width: 55%;
       padding: 12px 18px;
-      border-radius: 12px;
-      border: 1px solid rgba(168, 85, 255, 0.45);
-      background: rgba(10, 0, 25, 0.55);
+      border-radius: 999px;
+      border: 1px solid rgba(168, 85, 255, 0.5);
+      background: rgba(5, 0, 12, 0.9);
       color: #f9f5ff;
       font-size: 16px;
       outline: none;
-      box-shadow: 0 0 12px rgba(168, 85, 255, 0.25);
-      backdrop-filter: blur(6px);
+      box-shadow: 0 0 0 1px rgba(107, 33, 255, 0.35);
     }
 
-    .browser-input::placeholder {
+    #sj-address::placeholder {
       color: rgba(209, 196, 255, 0.6);
     }
 
-    .browser-button {
-      padding: 12px 26px;
-      border-radius: 12px;
-      border: 1px solid rgba(168, 85, 255, 0.45);
-      background: rgba(20, 0, 40, 0.55);
-      color: #d8b4ff;
-      font-size: 15px;
+    #goBtn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      background: radial-gradient(circle at top left, var(--accent), var(--accent-soft));
+      color: #fdfcff;
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0 0 18px rgba(168, 85, 255, 0.35);
-      backdrop-filter: blur(6px);
-      transition: 0.2s ease;
+      box-shadow: 0 0 18px rgba(168, 85, 255, 0.7);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
     }
 
-    .browser-button:hover {
-      border-color: rgba(168, 85, 255, 0.8);
-      box-shadow: 0 0 28px rgba(168, 85, 255, 0.6);
-      color: #f0d9ff;
+    #goBtn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+      box-shadow: 0 0 24px rgba(168, 85, 255, 0.9);
     }
 
-    .browser-button:active {
-      transform: scale(0.97);
-      box-shadow: 0 0 12px rgba(168, 85, 255, 0.4);
+    #goBtn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 0 12px rgba(168, 85, 255, 0.6);
     }
 
-    /* Purple outlined frame (REAL FRAME) */
-    .browser-frame {
-      position: absolute;
-      top: 150px;
-      left: 50%;
-      transform: translateX(-50%);
+    /* Frame wrapper with purple transparent outline */
+    #sj-frame-wrapper {
+      margin-top: 20px;
+      margin-inline: auto;
       width: 90%;
-      bottom: 10px;
-
+      height: calc(100vh - 220px);
       border-radius: 18px;
       border: 2px solid rgba(168, 85, 255, 0.45);
       background: rgba(10, 0, 25, 0.55);
       box-shadow: 0 0 30px rgba(168, 85, 255, 0.5);
-
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
     }
 
-    .browser-url {
+    #sj-frame-url {
       padding: 8px 14px;
       font-size: 13px;
       color: rgba(226, 232, 240, 0.8);
@@ -139,17 +148,23 @@
       background: rgba(15, 23, 42, 0.6);
     }
 
-    .browser-iframe {
+    #sj-frame {
+      flex: 1;
       width: 100%;
-      height: calc(100% - 32px);
       border: none;
       background: transparent;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.6;
+      margin: 6px 0;
     }
   </style>
 </head>
 
 <body>
-
   <!-- Background squares -->
   <div class="bg">
     <div class="square"></div>
@@ -162,22 +177,27 @@
 
   <!-- Header -->
   <div class="header">
-    <h1 class="title">ConvYH V2</h1>
-    <div class="subtitle">ConvYH V2 Proxy — powered by Scramjet.</div>
+    <h1>ConvYH V2</h1>
+    <div class="desc">ConvYH V2 Proxy — powered by Scramjet.</div>
   </div>
 
-  <!-- Search bar -->
-  <form id="sj-form" class="browser-bar">
+  <!-- Scramjet form -->
+  <form id="sj-form">
     <input id="sj-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
-    <input id="sj-address" class="browser-input" type="text" placeholder="Enter a website URL..." />
-    <button class="browser-button" type="submit">Go</button>
+    <input id="sj-address" type="text" placeholder="Enter a website URL..." />
+    <button id="goBtn" type="submit">Go</button>
   </form>
 
-  <!-- Purple outlined frame (REAL FRAME) -->
-  <div class="browser-frame">
-    <p id="sj-frame-url" class="browser-url"></p>
-    <iframe id="sj-frame" class="browser-iframe"></iframe>
+  <p id="sj-error"></p>
+  <pre id="sj-error-code"></pre>
+
+  <!-- Frame with purple transparent outline -->
+  <div id="sj-frame-wrapper">
+    <p id="sj-frame-url"></p>
+    <iframe id="sj-frame"></iframe>
   </div>
+
+  <footer>ConvYH &copy; 2026</footer>
 
   <!-- Scramjet logic -->
   <script src="/index.js"></script>
@@ -196,7 +216,7 @@
       setInterval(() => randomMove(square), 8000);
     });
 
-    // Enter key submits form
+    // Make Enter submit the Scramjet form
     const form = document.getElementById("sj-form");
     const address = document.getElementById("sj-address");
     address.addEventListener("keydown", e => {
@@ -205,7 +225,9 @@
         form.submit();
       }
     });
-  </script>
 
+    // Do NOT load anything by default
+    // Frame stays empty until user enters a URL
+  </script>
 </body>
 </html>
