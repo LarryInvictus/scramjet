@@ -1,13 +1,14 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ConvYH V2 - A free web proxy powered by Scramjet" />
+  <meta name="robots" content="noindex" />
   <title>ConvYH V2 — Scramjet Proxy</title>
 
   <!-- Scramjet required -->
   <link rel="stylesheet" href="/index.css" />
-  <meta name="robots" content="noindex" />
   <script src="/bootstrap-init.js"></script>
 
   <style>
@@ -17,15 +18,21 @@
       --accent-soft: #6b21ff;
     }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
       background: var(--bg);
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
       color: #f9f5ff;
-      display: flex;
-      flex-direction: column;
     }
 
     /* Background squares */
@@ -35,6 +42,7 @@
       z-index: -1;
       overflow: hidden;
       background: radial-gradient(circle at top left, #1a0b33 0, #050008 45%, #000 100%);
+      pointer-events: none;
     }
 
     .square {
@@ -46,106 +54,118 @@
       background: linear-gradient(135deg, rgba(168, 85, 255, 0.18), rgba(107, 33, 255, 0.05));
       box-shadow: 0 0 25px rgba(168, 85, 255, 0.35);
       backdrop-filter: blur(4px);
-      transition: transform 10s linear;
+      will-change: transform;
     }
 
-    /* Header */
+    /* Centered header */
     .header {
       text-align: center;
-      padding-top: 24px;
+      padding: 40px 20px 0;
     }
 
     .header h1 {
-      font-size: 48px;
+      font-size: 64px;
       font-weight: 900;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       background: linear-gradient(90deg, var(--accent), var(--accent-soft));
       -webkit-background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 25px rgba(168, 85, 255, 0.6);
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       margin: 0;
+      text-shadow: 0 0 25px rgba(168, 85, 255, 0.6);
     }
 
     .desc {
       text-align: center;
-      font-size: 16px;
+      margin: 10px 20px;
+      font-size: 18px;
       opacity: 0.8;
-      margin-top: 6px;
     }
 
     /* Search bar */
     #sj-form {
-      margin-top: 20px;
+      margin-top: 40px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 10px;
+      padding: 0 20px;
     }
 
     #sj-address {
-      width: 55%;
-      padding: 12px 18px;
+      width: 60%;
+      max-width: 500px;
+      padding: 14px 20px;
       border-radius: 999px;
       border: 1px solid rgba(168, 85, 255, 0.5);
       background: rgba(5, 0, 12, 0.9);
       color: #f9f5ff;
-      font-size: 16px;
+      font-size: 18px;
       outline: none;
       box-shadow: 0 0 0 1px rgba(107, 33, 255, 0.35);
+      transition: all 0.3s ease;
     }
 
     #sj-address::placeholder {
       color: rgba(209, 196, 255, 0.6);
     }
 
-    #goBtn {
-      padding: 10px 20px;
-      border-radius: 999px;
-      border: none;
-      background: radial-gradient(circle at top left, var(--accent), var(--accent-soft));
-      color: #fdfcff;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 0 0 18px rgba(168, 85, 255, 0.7);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    #sj-address:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(168, 85, 255, 0.2);
     }
 
-    #goBtn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.08);
-      box-shadow: 0 0 24px rgba(168, 85, 255, 0.9);
-    }
-
-    #goBtn:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow: 0 0 12px rgba(168, 85, 255, 0.6);
-    }
-
-    /* Frame wrapper with purple transparent outline */
-    #sj-frame-wrapper {
+    /* Error text */
+    .error-container {
+      text-align: center;
       margin-top: 20px;
-      margin-inline: auto;
-      width: 90%;
-      height: calc(100vh - 220px);
-      border-radius: 18px;
-      border: 2px solid rgba(168, 85, 255, 0.45);
-      background: rgba(10, 0, 25, 0.55);
-      box-shadow: 0 0 30px rgba(168, 85, 255, 0.5);
-      overflow: hidden;
+      padding: 0 20px;
+    }
+
+    #sj-error {
+      color: #ff7b7b;
+      font-size: 16px;
+      margin: 0;
+      min-height: 1.5em;
+    }
+
+    #sj-error-code {
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.7;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow: auto;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      opacity: 0.6;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    /* Frame wrapper */
+    #sj-frame-wrapper {
+      margin-top: 30px;
+      width: 100%;
+      height: calc(100vh - 350px);
+      min-height: 400px;
       display: flex;
       flex-direction: column;
     }
 
     #sj-frame-url {
-      padding: 8px 14px;
-      font-size: 13px;
-      color: rgba(226, 232, 240, 0.8);
-      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
-      background: rgba(15, 23, 42, 0.6);
+      padding: 10px 20px;
+      font-size: 14px;
+      color: rgba(209, 196, 255, 0.8);
+      margin: 0;
+      border-bottom: 1px solid rgba(168, 85, 255, 0.2);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     #sj-frame {
@@ -155,18 +175,27 @@
       background: transparent;
     }
 
-    footer {
-      text-align: center;
-      font-size: 12px;
-      opacity: 0.6;
-      margin: 6px 0;
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: clamp(36px, 10vw, 48px);
+      }
+
+      #sj-address {
+        width: min(90%, 400px);
+        font-size: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .square {
+        animation: none !important;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Background squares -->
-  <div class="bg">
+  <div class="bg" aria-hidden="true">
     <div class="square"></div>
     <div class="square"></div>
     <div class="square"></div>
@@ -175,59 +204,66 @@
     <div class="square"></div>
   </div>
 
-  <!-- Header -->
-  <div class="header">
-    <h1>ConvYH V2</h1>
-    <div class="desc">ConvYH V2 Proxy — powered by Scramjet.</div>
-  </div>
+  <main>
+    <div class="header">
+      <h1>ConvYH V2</h1>
+    </div>
 
-  <!-- Scramjet form -->
-  <form id="sj-form">
-    <input id="sj-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
-    <input id="sj-address" type="text" placeholder="Enter a website URL..." />
-    <button id="goBtn" type="submit">Go</button>
-  </form>
+    <p class="desc">Welcome to the ConvYH V2 Proxy — powered by Scramjet.</p>
 
-  <p id="sj-error"></p>
-  <pre id="sj-error-code"></pre>
+    <form id="sj-form" aria-label="Web proxy search">
+      <input id="sj-search-engine" value="https://www.google.com/search?q=%s" type="hidden" aria-hidden="true" />
+      <input 
+        id="sj-address" 
+        type="text" 
+        placeholder="Search the web freely"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search query"
+      />
+    </form>
 
-  <!-- Frame with purple transparent outline -->
-  <div id="sj-frame-wrapper">
-    <p id="sj-frame-url"></p>
-    <iframe id="sj-frame"></iframe>
-  </div>
+    <div class="error-container" role="status" aria-live="polite">
+      <div id="sj-error"></div>
+      <pre id="sj-error-code" aria-label="Error details"></pre>
+    </div>
 
-  <footer>ConvYH &copy; 2026</footer>
+    <footer>
+      <p>ConvYH &copy; 2026</p>
+    </footer>
 
-  <!-- Scramjet logic -->
-  <script src="/index.js"></script>
+    <div id="sj-frame-wrapper">
+      <p id="sj-frame-url" aria-label="Current page URL"></p>
+      <iframe 
+        id="sj-frame"
+        title="Proxied web content"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-pointer-lock"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </main>
 
-  <!-- ConvYH extras -->
+  <script src="/index.js" defer></script>
+
   <script>
-    // Floating squares
-    const squares = document.querySelectorAll('.square');
-    function randomMove(square) {
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * window.innerHeight;
-      square.style.transform = `translate(${x}px, ${y}px)`;
-    }
-    squares.forEach(square => {
-      randomMove(square);
-      setInterval(() => randomMove(square), 8000);
-    });
-
-    // Make Enter submit the Scramjet form
-    const form = document.getElementById("sj-form");
-    const address = document.getElementById("sj-address");
-    address.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        form.submit();
+    (function initializeBackgroundAnimation() {
+      const squares = document.querySelectorAll('.square');
+      
+      function randomMove(square) {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        square.style.transform = `translate(${x}px, ${y}px)`;
       }
-    });
 
-    // Do NOT load anything by default
-    // Frame stays empty until user enters a URL
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      if (!prefersReducedMotion) {
+        squares.forEach(square => {
+          randomMove(square);
+          setInterval(() => randomMove(square), 8000);
+        });
+      }
+    })();
   </script>
 </body>
 </html>
