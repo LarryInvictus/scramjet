@@ -20,12 +20,12 @@
     body {
       margin: 0;
       height: 100vh;
-      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       background: var(--bg);
       font-family: Arial, sans-serif;
       color: #f9f5ff;
-      display: flex;
-      flex-direction: column;
+      overflow: hidden;
     }
 
     /* Background squares */
@@ -52,7 +52,7 @@
     /* Header */
     .header {
       text-align: center;
-      padding-top: 24px;
+      padding-top: 20px;
     }
 
     .header h1 {
@@ -125,19 +125,21 @@
       box-shadow: 0 0 12px rgba(168, 85, 255, 0.6);
     }
 
-    /* Frame wrapper with purple transparent outline */
+    /* Frame wrapper — now full height */
     #sj-frame-wrapper {
-      margin-top: 20px;
-      margin-inline: auto;
+      flex: 1;
       width: 90%;
-      height: calc(100vh - 220px);
+      margin-inline: auto;
+      margin-top: 20px;
+
       border-radius: 18px;
       border: 2px solid rgba(168, 85, 255, 0.45);
       background: rgba(10, 0, 25, 0.55);
       box-shadow: 0 0 30px rgba(168, 85, 255, 0.5);
-      overflow: hidden;
+
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     #sj-frame-url {
@@ -191,7 +193,7 @@
   <p id="sj-error"></p>
   <pre id="sj-error-code"></pre>
 
-  <!-- Frame with purple transparent outline -->
+  <!-- Full-height frame -->
   <div id="sj-frame-wrapper">
     <p id="sj-frame-url"></p>
     <iframe id="sj-frame"></iframe>
@@ -216,7 +218,7 @@
       setInterval(() => randomMove(square), 8000);
     });
 
-    // Make Enter submit the Scramjet form
+    // Enter key submits form
     const form = document.getElementById("sj-form");
     const address = document.getElementById("sj-address");
     address.addEventListener("keydown", e => {
@@ -226,8 +228,7 @@
       }
     });
 
-    // Do NOT load anything by default
-    // Frame stays empty until user enters a URL
+    // No default website loaded
   </script>
 </body>
 </html>
