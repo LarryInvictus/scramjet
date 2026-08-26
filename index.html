@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ConvYH V2 — Scramjet Proxy</title>
 
-  <!-- Scramjet required -->
   <link rel="stylesheet" href="/index.css" />
   <meta name="robots" content="noindex" />
   <script src="/bootstrap-init.js"></script>
@@ -19,9 +18,6 @@
 
     body {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
       background: var(--bg);
       font-family: Arial, sans-serif;
       color: #f9f5ff;
@@ -58,8 +54,6 @@
     .header h1 {
       font-size: 48px;
       font-weight: 900;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
       background: linear-gradient(90deg, var(--accent), var(--accent-soft));
       -webkit-background-clip: text;
       color: transparent;
@@ -79,7 +73,6 @@
       margin-top: 20px;
       display: flex;
       justify-content: center;
-      align-items: center;
       gap: 10px;
     }
 
@@ -95,50 +88,30 @@
       box-shadow: 0 0 0 1px rgba(107, 33, 255, 0.35);
     }
 
-    #sj-address::placeholder {
-      color: rgba(209, 196, 255, 0.6);
-    }
-
     #goBtn {
       padding: 10px 20px;
       border-radius: 999px;
       border: none;
       background: radial-gradient(circle at top left, var(--accent), var(--accent-soft));
-      color: #fdfcff;
+      color: #fff;
       font-size: 14px;
       font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
       cursor: pointer;
       box-shadow: 0 0 18px rgba(168, 85, 255, 0.7);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
     }
 
-    #goBtn:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.08);
-      box-shadow: 0 0 24px rgba(168, 85, 255, 0.9);
-    }
-
-    #goBtn:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow: 0 0 12px rgba(168, 85, 255, 0.6);
-    }
-
-    /* Frame wrapper — now full height */
+    /* FULL HEIGHT FRAME */
     #sj-frame-wrapper {
-      flex: 1;
+      position: absolute;
+      top: 140px; /* header + search bar */
+      left: 50%;
+      transform: translateX(-50%);
       width: 90%;
-      margin-inline: auto;
-      margin-top: 20px;
-
+      height: calc(100vh - 160px);
       border-radius: 18px;
       border: 2px solid rgba(168, 85, 255, 0.45);
       background: rgba(10, 0, 25, 0.55);
       box-shadow: 0 0 30px rgba(168, 85, 255, 0.5);
-
-      display: flex;
-      flex-direction: column;
       overflow: hidden;
     }
 
@@ -151,22 +124,16 @@
     }
 
     #sj-frame {
-      flex: 1;
       width: 100%;
+      height: calc(100% - 32px);
       border: none;
       background: transparent;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 12px;
-      opacity: 0.6;
-      margin: 6px 0;
     }
   </style>
 </head>
 
 <body>
+
   <!-- Background squares -->
   <div class="bg">
     <div class="square"></div>
@@ -190,16 +157,11 @@
     <button id="goBtn" type="submit">Go</button>
   </form>
 
-  <p id="sj-error"></p>
-  <pre id="sj-error-code"></pre>
-
   <!-- Full-height frame -->
   <div id="sj-frame-wrapper">
     <p id="sj-frame-url"></p>
     <iframe id="sj-frame"></iframe>
   </div>
-
-  <footer>ConvYH &copy; 2026</footer>
 
   <!-- Scramjet logic -->
   <script src="/index.js"></script>
@@ -227,8 +189,7 @@
         form.submit();
       }
     });
-
-    // No default website loaded
   </script>
+
 </body>
-</html>
+  </html>
