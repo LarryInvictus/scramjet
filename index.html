@@ -24,6 +24,8 @@
       background: var(--bg);
       font-family: Arial, sans-serif;
       color: #f9f5ff;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Background squares */
@@ -47,14 +49,14 @@
       transition: transform 10s linear;
     }
 
-    /* Centered header */
+    /* Header */
     .header {
       text-align: center;
-      margin-top: 40px;
+      padding-top: 24px;
     }
 
     .header h1 {
-      font-size: 64px;
+      font-size: 48px;
       font-weight: 900;
       letter-spacing: 0.05em;
       text-transform: uppercase;
@@ -62,30 +64,33 @@
       -webkit-background-clip: text;
       color: transparent;
       text-shadow: 0 0 25px rgba(168, 85, 255, 0.6);
+      margin: 0;
     }
 
     .desc {
       text-align: center;
-      margin-top: 10px;
-      font-size: 18px;
+      font-size: 16px;
       opacity: 0.8;
+      margin-top: 6px;
     }
 
     /* Search bar */
     #sj-form {
-      margin-top: 40px;
+      margin-top: 20px;
       display: flex;
       justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
 
     #sj-address {
-      width: 60%;
-      padding: 14px 20px;
+      width: 55%;
+      padding: 12px 18px;
       border-radius: 999px;
       border: 1px solid rgba(168, 85, 255, 0.5);
       background: rgba(5, 0, 12, 0.9);
       color: #f9f5ff;
-      font-size: 18px;
+      font-size: 16px;
       outline: none;
       box-shadow: 0 0 0 1px rgba(107, 33, 255, 0.35);
     }
@@ -94,46 +99,86 @@
       color: rgba(209, 196, 255, 0.6);
     }
 
+    #goBtn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      background: radial-gradient(circle at top left, var(--accent), var(--accent-soft));
+      color: #fdfcff;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(168, 85, 255, 0.7);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    #goBtn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+      box-shadow: 0 0 24px rgba(168, 85, 255, 0.9);
+    }
+
+    #goBtn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 0 12px rgba(168, 85, 255, 0.6);
+    }
+
     /* Error text */
     #sj-error {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 10px;
       color: #ff7b7b;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     #sj-error-code {
       text-align: center;
-      font-size: 14px;
+      font-size: 12px;
       opacity: 0.7;
     }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      opacity: 0.6;
-      font-size: 14px;
+    /* Frame wrapper with purple transparent outline */
+    #sj-frame-wrapper {
+      margin-top: 20px;
+      margin-inline: auto;
+      width: 90%;
+      height: calc(100vh - 220px);
+      border-radius: 18px;
+      border: 2px solid rgba(168, 85, 255, 0.45);
+      background: rgba(10, 0, 25, 0.55);
+      box-shadow: 0 0 30px rgba(168, 85, 255, 0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* Frame wrapper */
-    #sj-frame-wrapper {
-      margin-top: 30px;
-      width: 100%;
-      height: calc(100vh - 350px);
+    #sj-frame-url {
+      padding: 8px 14px;
+      font-size: 13px;
+      color: rgba(226, 232, 240, 0.8);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.6);
     }
 
     #sj-frame {
+      flex: 1;
       width: 100%;
-      height: 100%;
       border: none;
       background: transparent;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.6;
+      margin: 6px 0;
     }
   </style>
 </head>
 
 <body>
-
   <!-- Background squares -->
   <div class="bg">
     <div class="square"></div>
@@ -147,62 +192,63 @@
   <!-- Header -->
   <div class="header">
     <h1>ConvYH V2</h1>
-  </div>
-
-  <div class="desc">
-    Welcome to the ConvYH V2 Proxy — powered by Scramjet.
+    <div class="desc">ConvYH V2 Proxy — powered by Scramjet.</div>
   </div>
 
   <!-- Scramjet form -->
   <form id="sj-form">
-    <input id="sj-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
+    <input
+      id="sj-search-engine"
+      value="https://www.google.com/search?q=%s"
+      type="hidden"
+    />
     <input id="sj-address" type="text" placeholder="Search the web freely" />
+    <button id="goBtn" type="submit">Go</button>
   </form>
 
-  <div class="desc">
-    <p id="sj-error"></p>
-    <pre id="sj-error-code"></pre>
-  </div>
+  <p id="sj-error"></p>
+  <pre id="sj-error-code"></pre>
 
-  <footer>
-    ConvYH &copy; 2026
-  </footer>
-
-  <!-- Frame -->
+  <!-- Frame with purple transparent outline -->
   <div id="sj-frame-wrapper">
     <p id="sj-frame-url"></p>
     <iframe id="sj-frame"></iframe>
   </div>
 
-  <!-- Scramjet required -->
+  <footer>ConvYH &copy; 2026</footer>
+
+  <!-- Scramjet logic -->
   <script src="/index.js"></script>
 
-  <!-- Floating squares movement -->
+  <!-- ConvYH extras -->
   <script>
+    // Floating squares
     const squares = document.querySelectorAll('.square');
-
     function randomMove(square) {
       const x = Math.random() * window.innerWidth;
       const y = Math.random() * window.innerHeight;
       square.style.transform = `translate(${x}px, ${y}px)`;
     }
-
     squares.forEach(square => {
       randomMove(square);
       setInterval(() => randomMove(square), 8000);
     });
-  </script>
-<script>
-  const form = document.getElementById("sj-form");
-  const address = document.getElementById("sj-address");
 
-  // Allow Enter to submit the form
-  address.addEventListener("keydown", e => {
-    if (e.key === "Enter") {
-      e.preventDefault();
+    // Make Enter submit the Scramjet form
+    const form = document.getElementById("sj-form");
+    const address = document.getElementById("sj-address");
+    address.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        form.submit();
+      }
+    });
+
+    // Load Google by default
+    window.addEventListener("load", () => {
+      address.value = "https://www.google.com/";
       form.submit();
-    }
-  });
- </script>
+    });
+  </script>
 </body>
 </html>
