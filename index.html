@@ -192,6 +192,17 @@
       setInterval(() => randomMove(square), 8000);
     });
   </script>
+<script>
+  const form = document.getElementById("sj-form");
+  const address = document.getElementById("sj-address");
 
+  // Allow Enter to submit the form
+  address.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      form.submit();
+    }
+  });
+ </script>
 </body>
 </html>
